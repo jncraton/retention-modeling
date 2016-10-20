@@ -19,14 +19,42 @@ with open('data.csv','r') as fin:
       for k in row.keys():
         row[k.lower()] = row.pop(k)
 
+
+  print("Removed rows without IDs")
+  data = [r for r in data if r['people_code_id']]
+
   print("Calculating means for imputation...")
+  years = set([r['entry_year'] for r in data])
+  years = sorted(list(years))
+
   valid_gpa_data = [s for s in data if s['hs_gpa'] and float(s['hs_gpa']) > 0 and float(s['hs_gpa']) < 5]
   valid_sat_data = [s for s in data if s['sat_verbal'] and float(s['sat_verbal']) > 0]
-  
+
   hs_gpa_mean = "%.2f" % (sum(float(r['hs_gpa']) for r in valid_gpa_data) / len(valid_gpa_data))
   sat_verb_mean = int(round(sum(float(r['sat_verbal']) for r in valid_sat_data) / len(valid_sat_data)))
   sat_math_mean = int(round(sum(float(r['sat_math']) for r in valid_sat_data) / len(valid_sat_data)))
 
+  hs_gpa_means = {}
+  for year in years:
+    this_year = [s for s in valid_gpa_data if s['entry_year'] == str(year)]
+    if len(this_year) > 0:
+      hs_gpa_means[year] = "%.2f" % (sum(float(r['hs_gpa']) for r in this_year) / len(this_year))
+    else:
+      hs_gpa_means[year] = hs_gpa_mean
+    print(year, len(this_year), hs_gpa_means[year])
+
+  sat_verb_means = {}
+  sat_math_means = {}
+  for year in years:
+    this_year = [s for s in valid_sat_data if s['entry_year'] == str(year)]
+    if len(this_year) > 0:
+      sat_verb_means[year] = int(round(sum(float(r['sat_verbal']) for r in this_year) / len(this_year)))
+      sat_math_means[year] = int(round(sum(float(r['sat_math']) for r in this_year) / len(this_year)))
+    else:
+      sat_verb_means[year] = sat_verb_mean
+      sat_math_means[year] = sat_math_mean
+    print("%s SAT means: %d %d (n=%d)" % (year, sat_verb_means[year], sat_math_means[year], len(this_year)))
+      
   with open('clean_data.tsv','w') as fout:
     fieldnames = list(map(str.lower,reader.fieldnames))+['hs_grade','white','african_american','mexican_american','native_american','graduated_in_6'] 
     fieldnames.remove('race')
@@ -40,7 +68,7 @@ with open('data.csv','r') as fin:
     writer.writeheader()
     for row in data:
       #row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
-      row['hs_gpa'] = float(row['hs_gpa']) or hs_gpa_mean # Mean imputation
+      row['hs_gpa'] = float(row['hs_gpa']) or hs_gpa_means[row['entry_year']] # Mean imputation
       row['hs_grade'] = convert_gpa_to_grade(float(row['hs_gpa']))
             
       row['sat_verbal'] = float(row['sat_verbal']) or sat_verb_mean # Mean imputation

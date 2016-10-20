@@ -16,7 +16,7 @@ def save_report(path, file, user='jonathan.craton', password=None):
       password or getpass.getpass()),
       verify=False)
   response_file = io.StringIO(response.text)
-  response_file.seek(3)
+  response_file.seek(1)
   
   with open(file, "w") as fout:
     for line in response_file:
