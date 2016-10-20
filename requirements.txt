@@ -1,0 +1,4 @@
+requests
+requests_ntlm
+matplotlib
+seaborn
