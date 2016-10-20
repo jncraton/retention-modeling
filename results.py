@@ -90,8 +90,8 @@ if __name__ == '__main__':
         actual_only_retention = [float(r['retention_rate']) for r in actual_retention if r['retention_rate'] and float(r['retention_rate']) > 0.0]
 
         overall_means = {
-          "expected_retention": sum([float(r['expected_retention']) for r in data][-11:-1]) / 10,
-          "actual_retention": sum(actual_only_retention[-10:]) / 10,
+          "expected_retention": sum([float(r['expected_retention']) for r in data][-10:-1]) / 9.,
+          "actual_retention": sum(actual_only_retention[-9:]) / 9.,
         }
         
         plt.legend(frameon=True, loc='lower right', handles = [
@@ -114,7 +114,7 @@ if __name__ == '__main__':
           plt.plot([r['class_year'] for r in actual_retention], [r['retention_rate'] for r in actual_retention], label = 'Actual Retention')[0],
           plt.plot([r['year'] for r in data], [overall_means['expected_retention'] for r in data], label='Expected Retention Mean')[0],
           plt.plot([r['year'] for r in data], [overall_means['actual_retention'] for r in data], label='Actual Retention Mean')[0],
-          plt.plot([r['class_year'] for r in actual_retention], [.7 + float(r['retention_rate']) - get_expected_retention(r['class_year']) for r in actual_retention], label='Deviation')[0],
+          #plt.plot([r['class_year'] for r in actual_retention], [.7 + float(r['retention_rate']) - get_expected_retention(r['class_year']) for r in actual_retention], label='Deviation')[0],
         ])
         plt.xlabel('Year')
         plt.ylabel('Expected')
