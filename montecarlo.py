@@ -35,7 +35,7 @@ for year in years:
       results.append(retained)
   
     npresults = numpy.asarray(results)
-    title = "Histogram of %d simlated results (μ=%.00f, σ=%.01f, mode=%.00f)" % (sims, npresults.mean(), npresults.std(), stats.mode(npresults)[0][0])
+    title = "%s Histogram of %dk Simulations (μ=%.00f, σ=%.01f, mode=%.00f)" % (year, sims/1000, npresults.mean(), npresults.std(), stats.mode(npresults)[0][0])
     print(title)
   
     bins = [bin for bin in range(int(npresults.mean()) - 20, int(npresults.mean()) + 20)]
@@ -50,21 +50,21 @@ for year in years:
 
     results = [100.0*float(r)/len(data) for r in results]
     npresults = numpy.asarray(results)
-    title = "Histogram of %d simlated results (μ=%.01f%%, σ=%.01f%%, mode=%.01f%%)" % (sims, npresults.mean(), npresults.std(), stats.mode(npresults)[0][0])
+    title = "%s Histogram of %dk Simulations (μ=%.01f%%, σ=%.01f%%, mode=%.01f%%)" % (year, sims/1000, npresults.mean(), npresults.std(), stats.mode(npresults)[0][0])
     print(title)
   
     bins = [100.0*float(b) / len(data) for b in bins]
   
     plt.hist(results, bins=bins)
-    plt.xlabel('%s retention percentage' % year)
+    plt.xlabel('%s retention rate' % year)
     plt.ylabel('Simulation Count')
     plt.title(title)
     if year in actual_retention.keys():
       plt.axvline(100.0*float(actual_retention[year]), color='black', linestyle='dashed', linewidth=2)
-      plt.text(100.0*float(actual_retention[year]), 400, "Actual Retention",rotation=90, bbox=dict(facecolor='white', alpha=0.8), ha='center', va='center')
+      plt.text(100.0*float(actual_retention[year]), sims/50, "Actual Retention",rotation=90, bbox=dict(facecolor='white', alpha=0.8), ha='center', va='center')
     else:
       plt.axvline(npresults.mean(), color='black', linestyle='dashed', linewidth=2)
-      plt.text(npresults.mean(), 400, "Expected Retention", rotation=90, bbox=dict(facecolor='white', alpha=0.8), ha='center',va='center')
+      plt.text(npresults.mean(), sims/50, "Expected Retention", rotation=90, bbox=dict(facecolor='white', alpha=0.8), ha='center',va='center')
                         
     plt.savefig('results/%s/%s_overall_retention_histogram.png' % (campus,year))
     plt.close()
