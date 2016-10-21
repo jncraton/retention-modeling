@@ -12,6 +12,9 @@ results/all/expected_graduation_rate_by_year.tsv: results.py clean_data.tsv asti
 presentations/latest.html: presentations/template.md
 	@cd presentations && pandoc -s -i -t revealjs --variable theme="moon" template.md -o latest.html
 
+presentations/report.pdf: presentations/report.md
+	pandoc -N -fmarkdown-implicit_figures --toc presentations/report.md -o presentations/report.pdf
+
 clean:
 	@rm -rf results/*
 	@rm data.csv clean_data.tsv people.csv
