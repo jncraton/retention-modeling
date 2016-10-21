@@ -8,13 +8,15 @@ import seaborn as sns
 
 import astin97
 
+start_year = "2007"
+
 if __name__ == '__main__':
   print('Loading people...')
   people = {p['PEOPLE_CODE_ID']: p for p in csv.DictReader(open('people.csv'))}
 
   print('Loading IPEDS retention...')
   actual_retention = list(csv.DictReader(open('actual-retention.tsv'),dialect='excel-tab'))
-  actual_retention = [s for s in actual_retention if s['class_year'] >= "2007"]
+  actual_retention = [s for s in actual_retention if s['class_year'] >= start_year]
 
   print('Loading retention report data...')
   student_data = list(csv.DictReader(open('clean_data.tsv','r'),dialect='excel-tab'))
@@ -25,7 +27,7 @@ if __name__ == '__main__':
     if not os.path.exists(path):
       os.makedirs(path)
 
-    data = [s for s in student_data if filter(s) and s['entry_year'] >= "2007"]
+    data = [s for s in student_data if filter(s) and s['entry_year'] >= start_year]
     
     for row in data:
       row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
@@ -41,7 +43,7 @@ if __name__ == '__main__':
       ])
       agg_writer.writeheader()
 
-      years = sorted(set([r['entry_year'] for r in data if r['entry_year'] >= '2007']))
+      years = sorted(set([r['entry_year'] for r in data if r['entry_year'] >= start_year]))
       
       for year in years:
         print("%s %s..." % (path, year))
@@ -89,10 +91,13 @@ if __name__ == '__main__':
         years = [r['year'] for r in data]
         actual_only_retention = [float(r['retention_rate']) for r in actual_retention if r['retention_rate'] and float(r['retention_rate']) > 0.0]
 
+        print([r['year'] for r in data][-23:-1])
+        print([r['class_year'] for r in actual_retention][-22:])
+
         overall_means = {
-          "expected_retention": sum([float(r['expected_retention']) for r in data][-6:-1]) / 5.,
-          "calculated_retention": sum([float(r['calculated_retention']) for r in data][-6:-1]) / 5.,
-          "actual_retention": sum(actual_only_retention[-5:]) / 5.,
+          "expected_retention": sum([float(r['expected_retention']) for r in data][-25:-1]) / 24.,
+          "calculated_retention": sum([float(r['calculated_retention']) for r in data][-25:-1]) / 24.,
+          "actual_retention": sum(actual_only_retention[-24:]) / 24.,
         }
         
         plt.legend(frameon=True, loc='lower right', handles = [
@@ -109,10 +114,16 @@ if __name__ == '__main__':
         def get_expected_retention(year):
           return float([r['expected_retention'] for r in data if r['year'] == year][0])
 
-        start_year = "2011"
         (fig, ax) = plt.subplots()
         
         plt.legend(frameon=True, loc='lower right', handles = [
+          ax.fill_between(
+            [int(r['year']) for r in data if r['year'] >= start_year],
+            [100*float(r['expected_retention'])-4.4 for r in data if r['year'] >= start_year],
+            [100*float(r['expected_retention'])+4.4 for r in data if r['year'] >= start_year],
+            color="black", alpha=.1,
+            label="±2 σ from expected",
+          ),
           ax.fill_between(
             [int(r['year']) for r in data if r['year'] >= start_year],
             [100*float(r['expected_retention'])-2.2 for r in data if r['year'] >= start_year],
@@ -121,11 +132,11 @@ if __name__ == '__main__':
             label="±1 σ from expected",
           ),
           plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['expected_retention']) for r in data if r['year'] >= start_year], label='Expected Retention')[0],
-
-          #plt.plot([r['year'] for r in data][:-1], [r['calculated_retention'] for r in data][:-1], label='Calculated Retention')[0],
           plt.plot([r['class_year'] for r in actual_retention if r['class_year'] >= start_year], [100.0* float(r['retention_rate']) for r in actual_retention if r['class_year'] >= start_year], label = 'Actual Retention')[0],
-          #plt.plot([r['year'] for r in data], [overall_means['expected_retention'] for r in data], label='Expected Retention Mean')[0],
-          #plt.plot([r['year'] for r in data], [overall_means['actual_retention'] for r in data], label='Actual Retention Mean')[0],
+
+          #plt.plot([r['year'] for r in data], [100.0*float(overall_means['expected_retention']) for r in data], label='Expected Retention Mean')[0],
+          #plt.plot([r['year'] for r in data], [100.0*float(overall_means['actual_retention']) for r in data], label='Actual Retention Mean')[0],
+          #plt.plot([r['year'] for r in data][:-1], [r['calculated_retention'] for r in data][:-1], label='Calculated Retention')[0],
           #plt.plot([r['year'] for r in data], [overall_means['calculated_retention'] for r in data], label='Calculated Retention Mean')[0],
           #plt.plot([r['class_year'] for r in actual_retention], [.7 + float(r['retention_rate']) - get_expected_retention(r['class_year']) for r in actual_retention], label='Deviation')[0],
         ])

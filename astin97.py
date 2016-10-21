@@ -50,5 +50,6 @@ def predict_retention(student):
   first year
 
   2.5 was chosen based on comparison of HC means for the last 5 years
+  2.2 was chosen based on comparison of HC means for all time
   """
   return 1.0 - ((1.0 - predict_four(student)) / 2.5)
