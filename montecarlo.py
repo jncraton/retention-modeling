@@ -20,7 +20,7 @@ for year in years:
   with open('results/%s/%s_ftiac_expected_graduation.tsv' % (campus,year)) as infile:
     data = [float(r['expected_retention']) for r in csv.DictReader(infile, dialect='excel-tab')] 
   
-    sims = 20000
+    sims = 100000
     results = []
     
     for sim in range(sims):
