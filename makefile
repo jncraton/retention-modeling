@@ -6,7 +6,7 @@ data.csv: get_data.py
 clean_data.tsv: data.csv
 	@python3 clean_data.py
 	
-results/all/expected_graduation_rate_by_year.tsv: results.py clean_data.tsv
+results/all/expected_graduation_rate_by_year.tsv: results.py clean_data.tsv astin97.py
 	@python3 results.py
 
 presentations/latest.html: presentations/template.md
