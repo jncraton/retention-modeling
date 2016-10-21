@@ -49,12 +49,12 @@ if __name__ == '__main__':
 
         agg_writer.writerow({
           'year': year,
-          'expected_retention': '%.2f' % (sum(float(r['expected_retention']) for r in year_data) / len(year_data)),
-          'expected_four_year': '%.2f' % (sum(float(r['expected_four_year']) for r in year_data) / len(year_data)),
-          'expected_six_year': '%.2f' % (sum(float(r['expected_six_year']) for r in year_data) / len(year_data)),
-          'expected_six_year_academic': '%.2f' % (sum(float(r['expected_six_year_academic']) for r in year_data) / len(year_data)),
-          'calculated_six_year': '%.2f' % (sum(float(r['graduated_in_6']) for r in year_data) / len(year_data)),
-          'calculated_retention': '%.2f' % (sum(float(r['retained']) for r in year_data) / len(year_data)),
+          'expected_retention': '%.3f' % (sum(float(r['expected_retention']) for r in year_data) / len(year_data)),
+          'expected_four_year': '%.3f' % (sum(float(r['expected_four_year']) for r in year_data) / len(year_data)),
+          'expected_six_year': '%.3f' % (sum(float(r['expected_six_year']) for r in year_data) / len(year_data)),
+          'expected_six_year_academic': '%.3f' % (sum(float(r['expected_six_year_academic']) for r in year_data) / len(year_data)),
+          'calculated_six_year': '%.3f' % (sum(float(r['graduated_in_6']) for r in year_data) / len(year_data)),
+          'calculated_retention': '%.3f' % (sum(float(r['retained']) for r in year_data) / len(year_data)),
           'under_50_four_year': len([r for r in year_data if r['expected_four_year'] < .50]),
           'under_50_six_year': len([r for r in year_data if r['expected_six_year'] < .50]),
         })
