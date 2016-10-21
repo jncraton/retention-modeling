@@ -115,15 +115,15 @@ if __name__ == '__main__':
         plt.legend(frameon=True, loc='lower right', handles = [
           ax.fill_between(
             [int(r['year']) for r in data if r['year'] >= start_year],
-            [float(r['expected_retention'])-.021 for r in data if r['year'] >= start_year],
-            [float(r['expected_retention'])+.021 for r in data if r['year'] >= start_year],
+            [100*float(r['expected_retention'])-2.2 for r in data if r['year'] >= start_year],
+            [100*float(r['expected_retention'])+2.2 for r in data if r['year'] >= start_year],
             color="black", alpha=.2,
             label="±1 σ from expected",
           ),
-          plt.plot([r['year'] for r in data if r['year'] >= start_year], [r['expected_retention'] for r in data if r['year'] >= start_year], label='Expected Retention')[0],
+          plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['expected_retention']) for r in data if r['year'] >= start_year], label='Expected Retention')[0],
 
           #plt.plot([r['year'] for r in data][:-1], [r['calculated_retention'] for r in data][:-1], label='Calculated Retention')[0],
-          plt.plot([r['class_year'] for r in actual_retention if r['class_year'] >= start_year], [r['retention_rate'] for r in actual_retention if r['class_year'] >= start_year], label = 'Actual Retention')[0],
+          plt.plot([r['class_year'] for r in actual_retention if r['class_year'] >= start_year], [100.0* float(r['retention_rate']) for r in actual_retention if r['class_year'] >= start_year], label = 'Actual Retention')[0],
           #plt.plot([r['year'] for r in data], [overall_means['expected_retention'] for r in data], label='Expected Retention Mean')[0],
           #plt.plot([r['year'] for r in data], [overall_means['actual_retention'] for r in data], label='Actual Retention Mean')[0],
           #plt.plot([r['year'] for r in data], [overall_means['calculated_retention'] for r in data], label='Calculated Retention Mean')[0],
@@ -132,7 +132,7 @@ if __name__ == '__main__':
         plt.xlabel('Year')
         ax = plt.gca()
         ax.get_xaxis().get_major_formatter().set_useOffset(False)
-        plt.ylabel('Expected')
+        plt.ylabel('Retention Rate')
         plt.title('Expected Retention Rate by Year')
         plt.savefig('%s/expected_retention_by_year.png' % path)
         plt.close()
