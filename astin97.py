@@ -49,7 +49,10 @@ def predict_retention(student):
   """ Uses predict_four and assumes that about half of attrition is in the 
   first year
 
-  2.5 was chosen based on comparison of HC means for the last 5 years
-  2.2 was chosen based on comparison of HC means for all time
+  2.81 was chosen based on best fit for last 5 years
+  2.65 was chosen based on best fit for last 10 years
+  2.55 was chosen based on best fit for all time
+
+  Offset of .05 based on historic 4 year grad rates underperforming by ~5%
   """
-  return 1.0 - ((1.0 - predict_four(student)) / 2.5)
+  return 1. - ((1. - (predict_four(student) - .05)) / 2.81)
