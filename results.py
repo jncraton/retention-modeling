@@ -8,18 +8,18 @@ import seaborn as sns
 
 import astin97
 
-start_year = "2011"
+start_year = "2007"
 
 if __name__ == '__main__':
   print('Loading people...')
-  people = {p['PEOPLE_CODE_ID']: p for p in csv.DictReader(open('people.csv'))}
+  people = {p['PEOPLE_CODE_ID']: p for p in csv.DictReader(open('data/people.csv'))}
 
   print('Loading IPEDS retention...')
   actual_retention = list(csv.DictReader(open('actual-retention.tsv'),dialect='excel-tab'))
   actual_retention = [s for s in actual_retention if s['class_year'] >= start_year]
 
   print('Loading retention report data...')
-  student_data = list(csv.DictReader(open('clean_data.tsv','r'),dialect='excel-tab'))
+  student_data = list(csv.DictReader(open('data/clean_data.tsv','r'),dialect='excel-tab'))
 
   def build_results(path, filter=lambda r: True):
     print('Building results for %s...' % path)
@@ -142,8 +142,8 @@ if __name__ == '__main__':
           plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['expected_retention']) for r in data if r['year'] >= start_year], label='Expected Retention')[0],
           plt.plot([r['class_year'] for r in actual_retention if r['class_year'] >= start_year], [100.0* float(r['retention_rate']) for r in actual_retention if r['class_year'] >= start_year], label = 'Actual Retention')[0],
 
-          plt.plot([r['year'] for r in data], [100.0*float(overall_means['expected_retention']) for r in data], label='Expected Retention Mean')[0],
-          plt.plot([r['year'] for r in data], [100.0*float(overall_means['actual_retention']) for r in data], label='Actual Retention Mean')[0],
+          #plt.plot([r['year'] for r in data], [100.0*float(overall_means['expected_retention']) for r in data], label='Expected Retention Mean')[0],
+          #plt.plot([r['year'] for r in data], [100.0*float(overall_means['actual_retention']) for r in data], label='Actual Retention Mean')[0],
 
           #plt.plot([r['year'] for r in data][:-1], [r['calculated_retention'] for r in data][:-1], label='Calculated Retention')[0],
           #plt.plot([r['year'] for r in data], [overall_means['calculated_retention'] for r in data], label='Calculated Retention Mean')[0],

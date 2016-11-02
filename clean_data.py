@@ -10,7 +10,7 @@ def convert_gpa_to_grade(hs_gpa):
     elif hs_gpa > 1.7: return 2
     else: return 1
 
-with open('data.csv','r') as fin:
+with open('data/data.csv','r') as fin:
   reader = csv.DictReader(fin)
   data = list(reader)
 
@@ -55,7 +55,7 @@ with open('data.csv','r') as fin:
       sat_math_means[year] = sat_math_mean
     print("%s SAT means: %d %d (n=%d)" % (year, sat_verb_means[year], sat_math_means[year], len(this_year)))
       
-  with open('clean_data.tsv','w') as fout:
+  with open('data/clean_data.tsv','w') as fout:
     fieldnames = list(map(str.lower,reader.fieldnames))+['hs_grade','white','african_american','mexican_american','native_american','graduated_in_6'] 
     fieldnames.remove('race')
     fieldnames.remove('sat_writing')

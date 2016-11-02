@@ -1,1 +1,6 @@
 __pycache__
+data/*
+results/*
+presentations/*.html
+presentations/*.pdf
+config.py
