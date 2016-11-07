@@ -149,6 +149,7 @@ if __name__ == '__main__':
           ),
           plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['expected_retention']) for r in data if r['year'] >= start_year], label='Expected Retention')[0],
           plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['gbrt_retention']) for r in data if r['year'] >= start_year], label='GBRT Retention')[0],
+          plt.plot([r['year'] for r in data if r['year'] >= start_year][:-1], [100.0 * float(r['calculated_retention']) for r in data if r['year'] >= start_year][:-1], label='Calculated Retention')[0],
           plt.plot([r['class_year'] for r in actual_retention if r['class_year'] >= start_year], [100.0* float(r['retention_rate']) for r in actual_retention if r['class_year'] >= start_year], label = 'Actual Retention')[0],
 
           #plt.plot([r['year'] for r in data], [100.0*float(overall_means['expected_retention']) for r in data], label='Expected Retention Mean')[0],
