@@ -7,8 +7,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 import astin97
+import ml
 
 start_year = "2007"
+
+ml.init_retention()
 
 if __name__ == '__main__':
   print('Loading people...')
@@ -32,6 +35,7 @@ if __name__ == '__main__':
     for row in data:
       row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
             
+      row['gbrt_retention'] = ml.predict_retention(row)
       row['expected_retention'] = astin97.predict_retention(row)
       row['expected_four_year'] = astin97.predict_four(row)
       row['expected_six_year'] = astin97.predict_six(row)
@@ -39,7 +43,7 @@ if __name__ == '__main__':
         
     with open('%s/expected_graduation_rate_by_year.tsv' % path, 'w') as f_agg:
       agg_writer = csv.DictWriter(f_agg, dialect='excel-tab', extrasaction='ignore', fieldnames=[
-        'year', 'expected_four_year', 'under_50_four_year', 'expected_six_year_academic', 'expected_six_year', 'under_50_six_year', 'calculated_six_year','expected_retention','calculated_retention','calculated_retention',
+        'year', 'expected_four_year', 'under_50_four_year', 'expected_six_year_academic', 'expected_six_year', 'under_50_six_year', 'calculated_six_year','expected_retention','gbrt_retention', 'calculated_retention','calculated_retention',
       ])
       agg_writer.writeheader()
 
@@ -51,6 +55,7 @@ if __name__ == '__main__':
 
         agg_writer.writerow({
           'year': year,
+          'gbrt_retention': '%.3f' % (sum(float(r['gbrt_retention']) for r in year_data) / len(year_data)),
           'expected_retention': '%.3f' % (sum(float(r['expected_retention']) for r in year_data) / len(year_data)),
           'expected_four_year': '%.3f' % (sum(float(r['expected_four_year']) for r in year_data) / len(year_data)),
           'expected_six_year': '%.3f' % (sum(float(r['expected_six_year']) for r in year_data) / len(year_data)),
@@ -76,6 +81,7 @@ if __name__ == '__main__':
           for row in year_data:
             row = row.copy()
             row['college'] = row['college']
+            row['gbrt_retention'] = '%.2f' % row['gbrt_retention']
             row['expected_retention'] = '%.2f' % row['expected_retention']
             row['expected_four_year'] = '%.2f' % row['expected_four_year']
             row['expected_six_year'] = '%.2f' % row['expected_six_year']
@@ -91,9 +97,11 @@ if __name__ == '__main__':
         years = [r['year'] for r in data]
         actual_only_retention = [float(r['retention_rate']) for r in actual_retention if r['retention_rate'] and float(r['retention_rate']) > 0.0]
         expected_only_retention = [float(r['expected_retention']) for r in data][:-1]
+        expected_only_gbrt_retention = [float(r['gbrt_retention']) for r in data][:-1]
 
         overall_means = {
           "expected_retention": sum(expected_only_retention) / len(expected_only_retention),
+          "gbrt_retention": sum(expected_only_gbrt_retention) / len(expected_only_gbrt_retention),
           #"calculated_retention": sum([float(r['calculated_retention']) for r in data][:-1]) / 24.,
           "actual_retention": sum(actual_only_retention) / len(actual_only_retention),
         }
@@ -140,6 +148,7 @@ if __name__ == '__main__':
             label="±1 σ from expected",
           ),
           plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['expected_retention']) for r in data if r['year'] >= start_year], label='Expected Retention')[0],
+          plt.plot([r['year'] for r in data if r['year'] >= start_year], [100.0 * float(r['gbrt_retention']) for r in data if r['year'] >= start_year], label='GBRT Retention')[0],
           plt.plot([r['class_year'] for r in actual_retention if r['class_year'] >= start_year], [100.0* float(r['retention_rate']) for r in actual_retention if r['class_year'] >= start_year], label = 'Actual Retention')[0],
 
           #plt.plot([r['year'] for r in data], [100.0*float(overall_means['expected_retention']) for r in data], label='Expected Retention Mean')[0],
