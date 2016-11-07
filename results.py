@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
         with open('%s/%s_ftiac_expected_graduation.tsv' % ((path), year), 'w') as f_year:
           year_writer = csv.DictWriter(f_year, dialect='excel-tab', extrasaction='ignore', fieldnames=[
-            'people_code_id', 'name', 'expected_retention', 'expected_four_year', 'expected_six_year','expected_six_year_academic','college', 
+            'people_code_id', 'name', 'gbrt_retention', 'expected_retention', 'expected_four_year', 'expected_six_year','expected_six_year_academic','college', 
           ])
           year_writer.writeheader()
           for row in year_data:
