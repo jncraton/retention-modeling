@@ -1,25 +1,29 @@
 % 2016 Retention Modeling
 % Jon Craton
-% October 21, 2016
+% January 30, 2016
 
-# 2016 Expected Retention
+# Overview
+
+We applied a basic linear model (Astin, 1997) including four variables (high school GPA, SAT scores, gender, race) to predict student graduation rates and compare our historical rates to expected results.
+
+## Model Selection
+
+Our model was chosen for the following reasons:
+
+- Data availability - The model uses four easily available variables
+- Simplicity - Easy to apply linear model
+- Large sample size (n=53k)
+
+# Selected Results
+
+## At Risk Students
+
+![Expected 4 year graduation rate](results/main/expected_4_by_year.png)
+
+![Students with under 50% chance of graduating](results/main/expected_6_by_year_under_50.png)
+
+## 2016 Retention Prediction
 
 ![2016 Expected Retention](results/all/2016_overall_retention_histogram.png)
 
-# Predicted and Actual Retention by Year
-
 ![Expected Retention by Year](results/all/expected_retention_by_year.png)
-
-# Prior Years for Comparison
-
-## 2015
-![2015 Retention](results/all/2015_overall_retention_histogram.png)
-
-## 2014
-![2014 Retention](results/all/2014_overall_retention_histogram.png)
-
-## 2013
-![2013 Retention](results/all/2013_overall_retention_histogram.png)
-
-## 2012
-![2012 Retention](results/all/2012_overall_retention_histogram.png)
