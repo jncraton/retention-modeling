@@ -62,7 +62,7 @@ def init_retention():
   print('Predicted overall retention: %.2f' % np.mean(retention_reg.predict(training_X)))
 
 def predict_retention(student):
-  return retention_reg.predict([student[var] for var in prediction_vars])
+  return retention_reg.predict(np.array([student[var] for var in prediction_vars]).reshape(1,-1))
 
 if __name__ == '__main__':
   init_retention()
