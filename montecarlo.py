@@ -13,7 +13,7 @@ with open('actual-retention.tsv', 'r') as fact:
   for row in csv.DictReader(fact, dialect='excel-tab'):
     actual_retention[row['class_year']] = row['retention_rate']
     
-years = ['2016']#,'2015','2014','2013','2012']
+years = ['2016','2015','2014','2013','2012']
 campus = 'all'
 
 for year in years:
