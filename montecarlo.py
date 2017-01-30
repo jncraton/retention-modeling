@@ -15,10 +15,11 @@ with open('actual-retention.tsv', 'r') as fact:
     
 years = ['2016','2015','2014','2013','2012']
 campus = 'all'
+column = 'expected_retention'
 
 for year in years:
   with open('results/%s/%s_ftiac_expected_graduation.tsv' % (campus,year)) as infile:
-    data = [float(r['gbrt_retention']) for r in csv.DictReader(infile, dialect='excel-tab')] 
+    data = [float(r[column]) for r in csv.DictReader(infile, dialect='excel-tab')] 
   
     sims = 20000
     results = []

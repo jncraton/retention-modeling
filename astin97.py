@@ -59,4 +59,4 @@ def predict_retention(student):
 
   Offset of .05 based on historic 4 year grad rates underperforming by ~5%
   """
-  return 1. - ((1. - (predict_four(student) - 0.0)) / 2.5)
+  return 1. - ((1. - (predict_four(student) - 0.05)) / 2.81)
