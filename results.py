@@ -9,7 +9,7 @@ import seaborn as sns
 import astin97
 import ml
 
-start_year = "2007"
+start_year = "2012"
 
 ml.init_retention()
 
@@ -112,6 +112,7 @@ if __name__ == '__main__':
           plt.plot([r['class_year'] for r in actual_retention if r['six_year_grad_rate']], [r['six_year_grad_rate'] for r in actual_retention if r['six_year_grad_rate']], label = 'Actual Six Year')[0],
         ])
         plt.xlabel('Year')
+        plt.xticks([float(year) for year in years], years, size='small')
         plt.ylabel('Expected')
         plt.title('Expected 6 year grad rate')
         plt.savefig('%s/expected_6_by_year.png' % path)
@@ -160,8 +161,7 @@ if __name__ == '__main__':
           #plt.plot([r['class_year'] for r in actual_retention], [.7 + float(r['retention_rate']) - get_expected_retention(r['class_year']) for r in actual_retention], label='Deviation')[0],
         ])
         plt.xlabel('Year')
-        ax = plt.gca()
-        ax.get_xaxis().get_major_formatter().set_useOffset(False)
+        plt.xticks([float(year) for year in years], years, size='small')
         plt.ylabel('Retention Rate')
         plt.title('Expected Retention Rate by Year')
         plt.savefig('%s/expected_retention_by_year.png' % path)
@@ -172,18 +172,20 @@ if __name__ == '__main__':
           plt.plot([r['class_year'] for r in actual_retention], [r['retention_rate'] for r in actual_retention], label = 'Actual Retention')[0],
         ])
         plt.xlabel('Year')
+        plt.xticks([float(year) for year in years], years, size='small')
         plt.ylabel('Expected')
         plt.title('Expected 6 year grad rate vs actual retention')
         plt.savefig('%s/expected_6_by_year_vs_retention.png' % path)
         plt.close()
         
         plt.legend(frameon=True, loc='lower right', handles = [
-          plt.plot([r['year'] for r in data], [r['under_50_six_year'] for r in data], label='Six Year')[0],
-          plt.plot([r['year'] for r in data], [r['under_50_four_year'] for r in data], label='Four Year')[0],
+          plt.plot([r['year'] for r in data], [r['under_50_six_year'] for r in data], label='In six years')[0],
+          plt.plot([r['year'] for r in data], [r['under_50_four_year'] for r in data], label='In four years')[0],
         ])
         plt.xlabel('Year')
-        plt.ylabel('Students')
-        plt.title('Less than 50% chance of graduating')
+        plt.xticks([float(year) for year in years], years, size='small')
+        plt.ylabel('Students (FTIAC)')
+        plt.title('Students with less than 50% chance of graduating')
         plt.savefig('%s/expected_6_by_year_under_50.png' % path)
         plt.close()
 
