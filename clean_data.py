@@ -67,7 +67,7 @@ with open('data/data.csv','r') as fin:
 
     writer.writeheader()
     for row in data:
-      if row['entry_year'] <= '2016':
+      if row['entry_year'] <= '2016' and row['entry_year'] >= '1991':
         #row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
         row['hs_gpa'] = float(row['hs_gpa']) or hs_gpa_means[row['entry_year']] # Mean imputation
         row['hs_grade'] = convert_gpa_to_grade(float(row['hs_gpa']))
