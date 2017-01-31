@@ -19,7 +19,6 @@ with open('data/data.csv','r') as fin:
       for k in row.keys():
         row[k.lower()] = row.pop(k)
 
-
   print("Removed rows without IDs")
   data = [r for r in data if r['people_code_id']]
 
@@ -55,8 +54,11 @@ with open('data/data.csv','r') as fin:
       sat_math_means[year] = sat_math_mean
     print("%s SAT means: %d %d (n=%d)" % (year, sat_verb_means[year], sat_math_means[year], len(this_year)))
       
+  print('Loading people...')
+  people = {p['PEOPLE_CODE_ID']: p for p in csv.DictReader(open('data/people.csv'))}
+
   with open('data/clean_data.tsv','w') as fout:
-    fieldnames = list(map(str.lower,reader.fieldnames))+['hs_grade','white','african_american','mexican_american','native_american','graduated_in_6'] 
+    fieldnames = list(map(str.lower,reader.fieldnames))+['name','hs_grade','white','black','mexican_american','native_american','asian','hispanic', 'graduated_in_6'] 
     fieldnames.remove('race')
     fieldnames.remove('sat_writing')
     fieldnames.remove('act_comp')
@@ -68,7 +70,7 @@ with open('data/data.csv','r') as fin:
     writer.writeheader()
     for row in data:
       if row['entry_year'] <= '2016' and row['entry_year'] >= '1991':
-        #row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
+        row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
         row['hs_gpa'] = float(row['hs_gpa']) or hs_gpa_means[row['entry_year']] # Mean imputation
         row['hs_grade'] = convert_gpa_to_grade(float(row['hs_gpa']))
               
@@ -76,9 +78,11 @@ with open('data/data.csv','r') as fin:
         row['sat_math'] = float(row['sat_math']) or sat_math_mean # Mean imputation
         row['gender'] = 2 if row['gender'] == 'Female' else 1
         row['white'] = 2 if row['race'].startswith('White') else 1
-        row['african_american'] = 2 if row['race'] == 'African American' else 1
+        row['black'] = 2 if row['race'] == 'African American' else 1
         row['mexican_american'] = 2 if row['race'] == 'Mexican American' else 1
         row['native_american'] = 2 if row['race'] == 'American Indian/Alaskan Native' else 1
+        row['asian'] = 2 if row['race'] == 'Asian' else 1
+        row['hispanic'] = 2 if row['race'] == 'Hispanic' else 1
   
         row['graduated_in_6'] = int((row['undergrad_grad_date'] or False) and row['undergrad_grad_date'] < "%d/08" % (int(row['entry_year']) + 6))
         row['retained'] = int(bool(row['retained']))

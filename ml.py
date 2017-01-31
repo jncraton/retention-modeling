@@ -11,9 +11,11 @@ prediction_vars = [
   'sat_math',
   'sat_verbal',
   'white',
-  'african_american',
+  'black',
   'mexican_american',
-  'native_american'
+  'native_american',
+  'asian',
+  'hispanic',
 ]
 
 def init_retention():
@@ -72,7 +74,9 @@ if __name__ == '__main__':
     'sat_math': 600,
     'sat_verbal': 600,
     'white': 2,
-    'african_american': 1,
+    'black': 1,
     'mexican_american': 1,
     'native_american': 1,
+    'asian': 1,
+    'hispanic': 1,
   }))

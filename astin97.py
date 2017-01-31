@@ -8,7 +8,7 @@ def predict_four(student):
   ...   'gender':1,
   ...   'white':2,
   ...   'native_american':1,
-  ...   'african_american':1,
+  ...   'black':1,
   ...   'mexican_american':1,
   ... })
   0.6618
@@ -22,7 +22,7 @@ def predict_four(student):
     .0803 * float(student['gender']) +\
     .0378 * float(student['white']) +\
     -.1403 * float(student['native_american']) +\
-    -.0570 * float(student['african_american']) +\
+    -.0570 * float(student['black']) +\
     -.0566 * float(student['mexican_american'])
   )
 

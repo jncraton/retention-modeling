@@ -14,9 +14,6 @@ start_year = "2012"
 ml.init_retention()
 
 if __name__ == '__main__':
-  print('Loading people...')
-  people = {p['PEOPLE_CODE_ID']: p for p in csv.DictReader(open('data/people.csv'))}
-
   print('Loading IPEDS retention...')
   actual_retention = list(csv.DictReader(open('actual-retention.tsv'),dialect='excel-tab'))
   actual_retention = [s for s in actual_retention if s['class_year'] >= start_year]
@@ -33,8 +30,6 @@ if __name__ == '__main__':
     data = [s for s in student_data if filter(s) and s['entry_year'] >= start_year]
     
     for row in data:
-      row['name'] = "%s %s" % (people[row['people_code_id']]['FIRST_NAME'], people[row['people_code_id']]['LAST_NAME'],)
-            
       row['gbrt_retention'] = ml.predict_retention(row)
       row['expected_retention'] = astin97.predict_retention(row)
       row['expected_four_year'] = astin97.predict_four(row)

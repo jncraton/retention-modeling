@@ -18,9 +18,9 @@ Our model was chosen for the following reasons:
 
 ## At Risk Students
 
-![Expected 4 year graduation rate](results/main/expected_4_by_year.png)
+![Expected 4 year graduation rate](results/all/expected_4_by_year.png)
 
-![Students with under 50% chance of graduating](results/main/expected_6_by_year_under_50.png)
+![Students with under 50% chance of graduating](results/all/expected_6_by_year_under_50.png)
 
 ## 2016 Retention Prediction
 
