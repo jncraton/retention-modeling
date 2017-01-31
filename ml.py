@@ -46,10 +46,12 @@ def init_retention():
   training_y_test = training[-20:, 2]
   
   retention_reg = GradientBoostingRegressor(
+    loss='ls',
     n_estimators=20,
     max_depth=4,
     learning_rate=.1,
-    random_state=0
+    random_state=0,
+    subsample=.5,
   )
   
   # Train the model using the training sets
