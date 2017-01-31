@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use('Agg') # don't use x server backend
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 import astin97
 import ml
@@ -50,13 +51,13 @@ if __name__ == '__main__':
 
         agg_writer.writerow({
           'year': year,
-          'gbrt_retention': '%.3f' % (sum(float(r['gbrt_retention']) for r in year_data) / len(year_data)),
-          'expected_retention': '%.3f' % (sum(float(r['expected_retention']) for r in year_data) / len(year_data)),
-          'expected_four_year': '%.3f' % (sum(float(r['expected_four_year']) for r in year_data) / len(year_data)),
-          'expected_six_year': '%.3f' % (sum(float(r['expected_six_year']) for r in year_data) / len(year_data)),
-          'expected_six_year_academic': '%.3f' % (sum(float(r['expected_six_year_academic']) for r in year_data) / len(year_data)),
-          'calculated_six_year': '%.3f' % (sum(float(r['graduated_in_6']) for r in year_data) / len(year_data)),
-          'calculated_retention': '%.3f' % (sum(float(r['retained']) for r in year_data) / len(year_data)),
+          'gbrt_retention': '%.3f' % np.mean([r['gbrt_retention'] for r in year_data]),
+          'expected_retention': '%.3f' % np.mean([r['expected_retention'] for r in year_data]),
+          'expected_four_year': '%.3f' % np.mean([r['expected_four_year'] for r in year_data]),
+          'expected_six_year': '%.3f' % np.mean([r['expected_six_year'] for r in year_data]),
+          'expected_six_year_academic': '%.3f' % np.mean([r['expected_six_year_academic'] for r in year_data]),
+          'calculated_six_year': '%.3f' % np.mean([float(r['graduated_in_6']) for r in year_data]),
+          'calculated_retention': '%.3f' % np.mean([float(r['retained']) for r in year_data]),
           'under_50_four_year': len([r for r in year_data if r['expected_four_year'] < .50]),
           'under_50_six_year': len([r for r in year_data if r['expected_six_year'] < .50]),
         })
