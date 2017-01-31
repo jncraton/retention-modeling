@@ -77,7 +77,7 @@ The following variables are most predictive and used in our model:
 
 -----
 
-![](../results/main/latest_expected_six_histogram.png)
+![](../results/main/latest_astin97_six_histogram.png)
 
 # Next steps
 
