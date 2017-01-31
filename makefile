@@ -1,7 +1,7 @@
 all: results/all/expected_graduation_rate_by_year.tsv presentations/latest.html
 
 data/data.csv: download_ssrs.py
-	@python3 download_ssrs.py /Student+Life/Retention+Analysis=data/data.csv /Housing+\(managed\)/tables/people=data/people.csv
+	@python3 download_ssrs.py /Student+Life/Retention+Analysis=data/data.csv /Housing+\(managed\)/tables/people=data/people.csv /Housing+\(managed\)/tables/address=data/address.csv
 
 clean_data.tsv: data/data.csv
 	@python3 clean_data.py
