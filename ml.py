@@ -16,6 +16,8 @@ prediction_vars = [
   'native_american',
   'asian',
   'hispanic',
+  'international',
+  'zip_pci',
 ]
 
 def init_retention():
@@ -79,4 +81,6 @@ if __name__ == '__main__':
     'native_american': 1,
     'asian': 1,
     'hispanic': 1,
+    'international': 1,
+    'zip_pci': 60,
   }))
